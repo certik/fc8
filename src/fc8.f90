@@ -25,7 +25,7 @@ call loadgame(filename)
 
 call display_open(wtitle,len(wtitle),zoom)
 
-call system_clock(tprev,trate)
+!call system_clock(tprev,trate)
 tstep = nint(trate/60.d0)
 !print *, "tstep = ", tstep
 
@@ -79,7 +79,7 @@ execute: do
     end select
 
     ! Timers
-    call system_clock(tcurr)
+!    call system_clock(tcurr)
     delta = tcurr - tprev
     if (delta > tstep) then
         call timers()
