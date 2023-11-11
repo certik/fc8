@@ -39,7 +39,7 @@ end subroutine
 
 subroutine process_cmdline()
 
-   use, intrinsic :: iso_fortran_env, only: error_unit, compiler_version
+   use, intrinsic :: iso_fortran_env, only: error_unit
 
    integer :: argc
 
@@ -78,7 +78,6 @@ subroutine process_cmdline()
             call print_help_message_and_stop
          case("-v","--version")
             write(*,'(A)') "fc8 version "//version
-            write(*,'(A)') "  built using "//compiler_version()
             stop
          case("-s","--silent")
             ! Turn off the sound
