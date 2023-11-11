@@ -740,7 +740,7 @@ contains
 
       do col = 0, 7
          do row = 0, n-1
-            sprite(row,7 - col) = btest(memory(I + row),col)
+!            sprite(row,7 - col) = btest(memory(I + row),col)
          end do
       end do
 
