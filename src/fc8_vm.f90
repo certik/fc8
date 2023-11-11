@@ -143,14 +143,14 @@ contains
    pure function asuint_int16(x,res) result(y)
       integer(byte), intent(in), value :: x
       integer(int16), intent(in), value :: res
-      integer(kind(res)) :: y
-      y = iand(transfer(x,y),int(z'FF',kind(res)))
+      integer(int16) :: y
+!      y = iand(transfer(x,y),int(z'FF',4))
    end function
    pure function asuint_default(x,res) result(y)
       integer(byte), intent(in), value :: x
-      integer(kind(0)), intent(in), value :: res
-      integer(kind(res)) :: y
-      y = iand(transfer(x,y),int(z'FF',kind(res)))
+      integer(4), intent(in), value :: res
+      integer(4) :: y
+!      y = iand(transfer(x,y),int(z'FF',4))
    end function
 
    pure function asaddr(x) result(y)
@@ -339,15 +339,15 @@ contains
       integer(instr), intent(in), target :: op
       integer(byte) :: b(2), readx
       b = transfer(op,b)
-      readx = iand(b(2),int(b'00001111',byte))
+!      readx = iand(b(2),int(b'00001111',byte))
    end function
    !> Read y-variable index 
    !> (guaranteed to be in the range 0-15 due to masking)
    pure function ready(op)
       integer(instr), intent(in), target :: op
       integer(byte) :: b(2), ready
-      b = transfer(shiftr(op,4),b)
-      ready = iand(b(1),int(b'00001111',byte))
+!      b = transfer(shiftr(op,4),b)
+!      ready = iand(b(1),int(b'00001111',byte))
    end function
 
    !> Helper function to skip an instruction by incrementing the
@@ -420,14 +420,14 @@ contains
       x = readx(opcode) ! A value from 0 to F
       y = ready(opcode) ! A value from 0 to F
 
-      n   = iand(opcode,int(z'000F',instr)) ! the lowest 4 bits  (0 - 15, index)
-      kk  = iand(opcode,int(z'00FF',instr)) ! the lowest 8 bits  (0 - 255, 1-byte value)
+!      n   = iand(opcode,int(z'000F',instr)) ! the lowest 4 bits  (0 - 15, index)
+!      kk  = iand(opcode,int(z'00FF',instr)) ! the lowest 8 bits  (0 - 255, 1-byte value)
 
-      nnn = iand(opcode,int(z'0FFF',instr)) ! the lowest 12 bits (0 - 4095, address)
+!      nnn = iand(opcode,int(z'0FFF',instr)) ! the lowest 12 bits (0 - 4095, address)
 
       if (debug) print '("n: ",Z2," kk: ",Z2)', n, kk
 
-      D = iand(opcode, DF)
+!      D = iand(opcode, DF)
 
       select case ( D )
       case( D0 )
@@ -490,7 +490,7 @@ contains
       case( DB ) ! Bnnn: jump to location nnn + V(0)
          pc = nnn + asaddr(V(0))
       case( DC ) ! Cxkk: V(x) = random byte AND kk
-         V(x) = iand(rand_byte(), kk)
+!         V(x) = iand(rand_byte(), kk)
          pc = pc + 2
       case( DD ) ! Dxyn: display an n-byte sprite starting at memory
                                  !       location I at (Vx, Vy) on the screen, VF = collision
@@ -641,11 +641,11 @@ contains
       case( D8XY0 )
          Vx = Vy
       case( D8XY1 )
-         Vx = ior(Vx,Vy)
+!         Vx = ior(Vx,Vy)
       case( D8XY2 )
-         Vx = iand(Vx,Vy)
+!         Vx = iand(Vx,Vy)
       case( D8XY3 )
-         Vx = ieor(Vx,Vy)
+!         Vx = ieor(Vx,Vy)
       case( D8XY4 )
          borrow = (asuint(vx,0) + asuint(vy,0)) > 255
          Vx = Vx + Vy
@@ -666,7 +666,7 @@ contains
          ! 8XY6: SHR Vx, Vy
          !Vx = Vy
          Vx = shiftr(Vy,1)
-         VF = iand(Vy,BIT0)
+!         VF = iand(Vy,BIT0)
       case( D8XY7 )
          ! 8XY7: SUBN Vx Vy
          borrow = asuint(Vy,0) >= asuint(Vx,0)
@@ -680,7 +680,7 @@ contains
          ! 8XYE: SHL Vx, Vy
          !Vx = Vy
          Vx = shiftl(Vy,1)
-         VF = iand(shiftr(Vy,7),BIT0)
+!         VF = iand(shiftr(Vy,7),BIT0)
       case default
          block
             integer(instr) :: op
