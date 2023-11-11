@@ -46,6 +46,6 @@ type, bind(c) :: fc8_keypad
     logical(c_bool) :: key(0:15) = .false.
 end type
 
-type(fc8_keypad), bind(c,name="keypad"), protected :: keypad
+type(fc8_keypad) :: keypad
 
 end module
